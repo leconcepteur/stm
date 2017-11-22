@@ -1,0 +1,33 @@
+version: '2'
+services:
+  nginx:
+    container_name: stm_nginx
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - .:/usr/src/stm
+      - ./docker/stm.conf:/etc/nginx/conf.d/stm.conf
+    working_dir: /usr/src/stm
+  php:
+    container_name: stm_php
+    build: .
+    volumes:
+      - .:/usr/src/stm
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/cacert.pem:/usr/local/etc/php/cacert.pem
+    working_dir: /usr/src/stm
+    ports:
+      - 9000
+    links:
+      - db
+  db:
+    container_name: stm_mariadb
+    image: mariadb
+    ports:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: stm
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
