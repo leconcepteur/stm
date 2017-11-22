@@ -9,6 +9,8 @@ services:
       - .:/usr/src/stm
       - ./docker/stm.conf:/etc/nginx/conf.d/stm.conf
     working_dir: /usr/src/stm
+    links:
+      - php
   php:
     container_name: stm_php
     build: .

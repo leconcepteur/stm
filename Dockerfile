@@ -34,12 +34,6 @@ RUN gem install --no-rdoc --no-ri compass
 # Docker PHP extension install
 RUN docker-php-ext-install pdo pdo_mysql gd curl iconv mcrypt mbstring
 
-# docker-php-ext-install phalcon doesn't work
-RUN apt-get install -y gcc libpcre3-dev
-RUN git clone --branch=phalcon-v2.0.0 --depth=1 https://github.com/phalcon/cphalcon.git
-RUN cd cphalcon/build && ./install
-RUN docker-php-ext-enable phalcon
-
 # Install Composer and make it available in the PATH
 RUN wget https://getcomposer.org/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
 
